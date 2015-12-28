@@ -2,13 +2,34 @@
   "name": "zafiro-soundrop",
   "version": "0.1.0",
   "main": "client/main.js",
+  "description": "A soundrop clone built with Elm + Electron + Node.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rix501/soundrop.git",
+    "private": true
+  },
+  "private": true,
   "scripts": {
+    "start": "npm run start-app",
+    "start-app": "electron ./",
     "build": "npm run build-elm",
     "build-elm": "elm-make client/src/Main.elm --output=client/elm.js",
     "dev": "npm run dev-elm",
-    "dev-elm": "open http://localhost:8000/client/src/Main.elm?debug=true && elm-reactor"
+    "dev-elm": "open http://localhost:8000/client/src/Main.elm?debug=true && elm-reactor",
+    "package": "node client/package.js --name=Soundrop",
+    "package-all": "npm run package -- --all"
   },
   "devDependencies": {
-    "elm": "^0.16.0"
+    "del": "^2.2.0",
+    "electron-packager": "^5.1.1",
+    "electron-prebuilt": "^0.36.0",
+    "electron-rebuild": "^1.0.0",
+    "elm": "^0.16.0",
+    "minimist": "^1.2.0",
+    "object-assign": "^4.0.1",
+    "webpack": "^1.12.9"
+  },
+  "dependencies": {
+    "electron-debug": "^0.5.1"
   }
 }

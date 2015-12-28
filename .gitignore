@@ -1,2 +1,13 @@
-elm-stuff
+# Logs
+logs
+*.log
+
+# deps
 node_modules
+elm-stuff
+
+# OSX
+.DS_Store
+
+# App packaged
+release
