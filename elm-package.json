@@ -4,7 +4,7 @@
     "repository": "https://github.com/rix501/soundrop.git",
     "license": "BSD3",
     "source-directories": [
-        "src"
+        "client/src"
     ],
     "exposed-modules": [],
     "dependencies": {

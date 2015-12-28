@@ -1,0 +1,14 @@
+{
+  "name": "zafiro-soundrop",
+  "version": "0.1.0",
+  "main": "client/main.js",
+  "scripts": {
+    "build": "npm run build-elm",
+    "build-elm": "elm-make client/src/Main.elm --output=client/elm.js",
+    "dev": "npm run dev-elm",
+    "dev-elm": "open http://localhost:8000/client/src/Main.elm?debug=true && elm-reactor"
+  },
+  "devDependencies": {
+    "elm": "^0.16.0"
+  }
+}
