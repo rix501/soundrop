@@ -10,4 +10,5 @@ elm-stuff
 .DS_Store
 
 # App packaged
+build
 release
