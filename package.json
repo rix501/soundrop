@@ -3,24 +3,25 @@
   "version": "0.1.0",
   "main": "client/main.js",
   "description": "A soundrop clone built with Elm + Electron + Node.",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:rix501/soundrop.git",
     "private": true
   },
-  "private": true,
   "scripts": {
-    "build": "npm run build:elm",
-    "build:elm": "elm-make client/src/Main.elm --output=client/build/elm.js",
-    "dev": "npm run dev:elm",
-    "dev:elm": "npm run build:elm && npm run open:browser && npm run watch:elm",
+    "build": "npm-run-all --parallel build:elm build:styles",
+    "build:styles": "node-sass client/src/styles --output client/build/styles",
+    "build:elm": "elm-make client/src/elm/Main.elm --output=client/build/js/app.js",
+    "dev": "npm-run-all build open:browser watch",
     "open:browser": "open client/index.html",
     "package": "node client/package.js --name=Soundrop",
     "package:all": "npm run package -- --all",
-    "start": "npm run start:app",
-    "start:app": "electron ./",
-    "watch": "npm run watch:elm",
-    "watch:elm": "chokidar '**/*.elm' -c 'npm run build:elm'"
+    "start": "npm run start:electron",
+    "start:electron": "electron ./",
+    "watch": "npm-run-all --parallel watch:elm watch:styles",
+    "watch:elm": "chokidar '**/*.elm' -c 'npm run build:elm'",
+    "watch:styles": "node-sass client/src/styles -w --output client/build/styles"
   },
   "devDependencies": {
     "del": "^2.2.0",
@@ -29,6 +30,8 @@
     "electron-rebuild": "^1.0.0",
     "elm": "^0.16.0",
     "minimist": "^1.2.0",
+    "node-sass": "^3.4.2",
+    "npm-run-all": "^1.4.0",
     "object-assign": "^4.0.1"
   },
   "dependencies": {
