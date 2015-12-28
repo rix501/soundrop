@@ -10,14 +10,17 @@
   },
   "private": true,
   "scripts": {
-    "start": "npm run start-app",
-    "start-app": "electron ./",
-    "build": "npm run build-elm",
-    "build-elm": "elm-make client/src/Main.elm --output=client/dist/elm.js",
-    "dev": "npm run dev-elm",
-    "dev-elm": "open http://localhost:8000/client/src/Main.elm?debug=true && elm-reactor",
+    "build": "npm run build:elm",
+    "build:elm": "elm-make client/src/Main.elm --output=client/build/elm.js",
+    "dev": "npm run dev:elm",
+    "dev:elm": "npm run build:elm && npm run open:browser && npm run watch:elm",
+    "open:browser": "open client/index.html",
     "package": "node client/package.js --name=Soundrop",
-    "package-all": "npm run package -- --all"
+    "package:all": "npm run package -- --all",
+    "start": "npm run start:app",
+    "start:app": "electron ./",
+    "watch": "npm run watch:elm",
+    "watch:elm": "chokidar '**/*.elm' -c 'npm run build:elm'"
   },
   "devDependencies": {
     "del": "^2.2.0",
@@ -26,8 +29,7 @@
     "electron-rebuild": "^1.0.0",
     "elm": "^0.16.0",
     "minimist": "^1.2.0",
-    "object-assign": "^4.0.1",
-    "webpack": "^1.12.9"
+    "object-assign": "^4.0.1"
   },
   "dependencies": {
     "electron-debug": "^0.5.1"

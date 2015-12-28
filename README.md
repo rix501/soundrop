@@ -20,7 +20,7 @@ Working with Elm app
 ### For building:
 
 ```bash
-npm run build-elm
+npm run build:elm
 ```
 This creates the `elm.js` file loaded in the Electron app.
 
@@ -28,9 +28,8 @@ This creates the `elm.js` file loaded in the Electron app.
 For starting dev server with watcher (no css):
 
 ```bash
-npm run dev-elm
+npm run dev:elm
 ```
-This will open a browser with `elm-reactor` debugger setup.
 Elm code will be automatically compiled when saving.
 
 Working with Electron
@@ -39,7 +38,7 @@ Working with Electron
 ### Starting
 
 ```bash
-npm run start-app
+npm run start:app
 ```
 ### Packaging
 
