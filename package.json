@@ -13,7 +13,7 @@
     "start": "npm run start-app",
     "start-app": "electron ./",
     "build": "npm run build-elm",
-    "build-elm": "elm-make client/src/Main.elm --output=client/elm.js",
+    "build-elm": "elm-make client/src/Main.elm --output=client/dist/elm.js",
     "dev": "npm run dev-elm",
     "dev-elm": "open http://localhost:8000/client/src/Main.elm?debug=true && elm-reactor",
     "package": "node client/package.js --name=Soundrop",
