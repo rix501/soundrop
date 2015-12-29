@@ -1,4 +1,4 @@
-module RichiHater (State, init, Action, update, view) where
+module RichiHater (Model, init, Action, update, view) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -9,11 +9,11 @@ import Signal exposing (Signal)
 
 -- MODEL
 
-type alias State =
+type alias Model =
     { richiHater : String
     }
 
-init : String -> State
+init : String -> Model
 init name =
     { richiHater = name
     }
@@ -24,36 +24,36 @@ init name =
 type Action = EnterHaterName String
 
 
-update : Action -> State -> State
-update action state =
+update : Action -> Model -> Model
+update action model =
     case action of
         EnterHaterName name ->
-            { state |
+            { model |
                 richiHater = name
             }
 
 -- VIEW
 
-labelElement : State -> Html
-labelElement state =
+labelElement : Model -> Html
+labelElement model =
     div [ ]
         [
-            text (state.richiHater ++ " hates richi")
+            text (model.richiHater ++ " hates richi a lot")
         ]
 
-inputElement : State -> Signal.Address Action -> Html
-inputElement state address =
+inputElement : Model -> Signal.Address Action -> Html
+inputElement model address =
     input
         [ placeholder "Who hates Richi?"
-        , value state.richiHater
+        , value model.richiHater
         , on "input" targetValue (Signal.message address << EnterHaterName)
         ]
         []
 
-view : Signal.Address Action -> State -> Html
-view address state =
+view : Signal.Address Action -> Model -> Html
+view address model =
     div [ ]
         [
-            inputElement state address
-        ,   labelElement state
+            inputElement model address
+        ,   labelElement model
         ]
