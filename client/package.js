@@ -2,7 +2,6 @@
 
 var os = require('os');
 var packager = require('electron-packager');
-var del = require('del');
 var objectAssign = require('object-assign');
 var exec = require('child_process').exec;
 var argv = require('minimist')(process.argv.slice(2));
