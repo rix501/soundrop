@@ -1,12 +1,21 @@
-import RichiHater exposing (update, view, init)
-import StartApp.Simple exposing (start)
-import Html exposing (Html)
-import Signal exposing (Signal)
+import Effects exposing (Never)
+import StartApp
+import Task
 
-main : Signal Html
-main =
-  start
-    { model = RichiHater.init "everyone"
+import Search exposing (update, view, init)
+
+
+app =
+  StartApp.start
+    { init = init
     , update = update
     , view = view
+    , inputs = []
     }
+
+main =
+    app.html
+
+port tasks : Signal (Task.Task Never ())
+port tasks =
+    app.tasks
