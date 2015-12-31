@@ -2,13 +2,13 @@ module Search (Model, init, Action, update, view) where
 
 import String
 import Effects
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html
+import Html.Attributes
+import Html.Events
 import Http
-import Json.Decode as Decode exposing (Decoder, (:=))
 import Task
-import Signal exposing (Signal)
+import Signal
+import Json.Decode as Decode exposing (Decoder, (:=))
 
 
 -- MODEL
@@ -16,6 +16,7 @@ import Signal exposing (Signal)
 type alias Model =
     { query : SearchQuery
     , searchResults: List SearchResult
+    , isSearching: Bool
     }
 
 type alias SearchQuery =
@@ -30,7 +31,7 @@ type alias SearchResult =
 
 init : (Model, Effects.Effects Action)
 init =
-    ( Model "" []
+    ( Model "" [] False
     , Effects.none
     )
 
@@ -45,22 +46,23 @@ update : Action -> Model -> (Model, Effects.Effects Action)
 update action model =
     case action of
         EnterQuery query ->
-            ( { model |
-                query = query
-              }
-            ,
-                if (String.length query > 0) then
-                    searchSong query
-                else
-                    Effects.none
-            )
+            let shouldSearch = (String.length query > 0)
+                fx = if shouldSearch then (searchSong query) else Effects.none
+            in
+                ( { model |
+                    query = query
+                  , isSearching = shouldSearch
+                  , searchResults = if shouldSearch then model.searchResults else []
+                  }
+                , fx
+                )
         NewSearchResults maybeSearchResults ->
             ( { model |
-                searchResults = Maybe.withDefault model.searchResults maybeSearchResults
+                isSearching = False
+              , searchResults = Maybe.withDefault [] maybeSearchResults
               }
             , Effects.none
             )
-
 
 
 searchResultDecoder : Decoder (SearchResult)
@@ -92,31 +94,45 @@ searchSong query =
 
 -- VIEW
 
-inputElement : Model -> Signal.Address Action -> Html
+indicatorElement: Model -> Html.Html
+indicatorElement model =
+    let indicatorText =
+        if model.isSearching then
+            "Searching..."
+        else
+            ""
+    in
+        Html.div []
+            [ Html.text indicatorText
+            ]
+
+
+inputElement : Model -> Signal.Address Action -> Html.Html
 inputElement model address =
-    input
-        [ placeholder "Search"
-        , value model.query
-        , on "input" targetValue (Signal.message address << EnterQuery)
+    Html.input
+        [ Html.Attributes.placeholder "Search"
+        , Html.Attributes.value model.query
+        , Html.Events.on "input" Html.Events.targetValue (Signal.message address << EnterQuery)
         ]
         []
 
-resultElement: SearchResult -> Html
+
+resultElement: SearchResult -> Html.Html
 resultElement searchResult =
-    li [ ]
-        [
-            text searchResult.name
+    Html.li [ ]
+        [ Html.text searchResult.name
         ]
 
-resultsElement : Model -> Html
+
+resultsElement : Model -> Html.Html
 resultsElement model =
-    ul [ ] (List.map resultElement model.searchResults)
+    Html.ul [ ] (List.map resultElement model.searchResults)
 
 
-view : Signal.Address Action -> Model -> Html
+view : Signal.Address Action -> Model -> Html.Html
 view address model =
-    div [ ]
-        [
-            inputElement model address
-        ,   resultsElement model
+    Html.div [ ]
+        [ inputElement model address
+        , indicatorElement model
+        , resultsElement model
         ]
