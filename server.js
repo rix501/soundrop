@@ -1,17 +1,11 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import _ from 'lodash';
-
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/test');
-
-const { Schema } = mongoose;
+import './server/db-config';
+import './server/schemas';
+import routes from './server/routes';
 
 const app = express();
 
-app.get('/health', (req, res) => {
-  res.send('ok');
-});
+app.use(routes);
 
 const server = app.listen(process.env.PORT || 9009, () => {
   const host = server.address().address;
